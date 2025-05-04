@@ -84,6 +84,9 @@ def verifier_noms():
     else:
         bouton_demarrer.config(state="disabled")
 
+def ia():
+    messagebox.showwarning("IA", "Pour jouer contre une ia entrez -> *IA* <- dans Joueur2 ")
+
 def demander_nb_manches():
     global nb_manches_gagnantes
     nb = simpledialog.askinteger("Nombre de manches", "Combien de manches gagnantes pour gagner le set ?", minvalue=1, maxvalue=10)
@@ -123,6 +126,10 @@ def afficher_accueil():
     bouton_demarrer = tk.Button(frame, text="Commencer la partie", command=lambda: demarrer_partie(accueil), font=("Helvetica", 35))
     bouton_demarrer.pack(expand=True, pady=10)
 
+    # Bouton pour expliquer comment mettre l'ia
+    bouton_ia = tk.Button(frame, text="Ia ?", command=ia, font=("Helvetica", 15))
+    bouton_ia.pack(pady=10)
+
     # Bouton pour définir les manches gagnantes
     bouton_set = tk.Button(frame, text="Définir les manches gagnantes", command=demander_nb_manches, font=("Helvetica", 15))
     bouton_set.pack(pady=50)
@@ -146,6 +153,9 @@ def demarrer_partie(accueil):
     global Joueur1, Joueur2
     Joueur1 = zone_texte_joueur1.get().strip()
     Joueur2 = zone_texte_joueur2.get().strip()
+
+    if Joueur2=="*IA*":
+        print("hahahaha")
 
     if Joueur1 and Joueur2:
         accueil.destroy()
@@ -249,6 +259,9 @@ def placer_jeton(x):
 
             joueur_act = 1 - joueur_act
             break
+    if Joueur2=="*IA*" and joueur_act==1:
+        x=rd.randint(1,nb_colonnes)
+        placer_jeton(x)
 
 
 
@@ -349,6 +362,7 @@ def reinitialiser_jeu():
     couleur = "Rouge" if joueur_act == 0 else "Jaune"
     label_joueur.config(text="C'est au Joueur " + str(joueur_act + 1) + " (" + couleur + ") de commencer")
     label_joueur.config(text=Joueur1 + " : " + str(manches_joueur1) + " | " + Joueur2 + " : " + str(manches_joueur2))
+
 def choisir_dimensions():
     global nb_colonnes, nb_lignes, largeur_case, hauteur_case, grille
 
