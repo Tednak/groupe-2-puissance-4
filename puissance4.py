@@ -83,10 +83,9 @@ def verifier_noms():
         bouton_demarrer.config(state="normal")
     else:
         bouton_demarrer.config(state="disabled")
-
 def ia():
     messagebox.showwarning("IA", "Pour jouer contre une ia entrez -> *IA* <- dans Joueur2 ")
-
+    
 def demander_nb_manches():
     global nb_manches_gagnantes
     nb = simpledialog.askinteger("Nombre de manches", "Combien de manches gagnantes pour gagner le set ?", minvalue=1, maxvalue=10)
@@ -94,7 +93,7 @@ def demander_nb_manches():
         nb_manches_gagnantes = nb    
 
 def afficher_accueil():
-    global nom_joueur1, nom_joueur2, zone_texte_joueur1, zone_texte_joueur2, bouton_demarrer
+    global nom_joueur1, nom_joueur2, zone_texte_joueur1, zone_texte_joueur2, bouton_demarrer, entry_pions
     accueil = tk.Tk()
     accueil.title("Page d'Accueil - Puissance 4")
     accueil.geometry("1000x700")
@@ -122,13 +121,13 @@ def afficher_accueil():
     zone_texte_joueur2.pack(pady=1)
     zone_texte_joueur2.bind("<KeyRelease>", lambda: verifier_noms())
 
-    # Bouton pour commencer la partie
-    bouton_demarrer = tk.Button(frame, text="Commencer la partie", command=lambda: demarrer_partie(accueil), font=("Helvetica", 35))
-    bouton_demarrer.pack(expand=True, pady=10)
-
     # Bouton pour expliquer comment mettre l'ia
     bouton_ia = tk.Button(frame, text="Ia ?", command=ia, font=("Helvetica", 15))
     bouton_ia.pack(pady=10)
+     
+    # Bouton pour commencer la partie
+    bouton_demarrer = tk.Button(frame, text="Commencer la partie", command=lambda: demarrer_partie(accueil), font=("Helvetica", 35))
+    bouton_demarrer.pack(expand=True, pady=10)
 
     # Bouton pour définir les manches gagnantes
     bouton_set = tk.Button(frame, text="Définir les manches gagnantes", command=demander_nb_manches, font=("Helvetica", 15))
@@ -146,17 +145,28 @@ def afficher_accueil():
     bouton_dimensions = tk.Button(frame, text="Changer dimensions", command=choisir_dimensions, font=("Helvetica", 15))
     bouton_dimensions.pack(pady=10) 
 
+    label_pions = tk.Label(frame , text="Pions à aligner pour gagner :")
+    label_pions.pack(pady=5)
+    entry_pions = tk.Entry(frame, font=("Comic Sans MS", 15, "bold"), fg="black")  # Texte en noir
+    entry_pions.insert(0, "4")  # valeur par défaut
+    entry_pions.pack(pady=5)
+    
     accueil.mainloop()
 
 
 def demarrer_partie(accueil):
-    global Joueur1, Joueur2
+    global Joueur1, Joueur2, nb_pion_victoire
     Joueur1 = zone_texte_joueur1.get().strip()
     Joueur2 = zone_texte_joueur2.get().strip()
-
+    nb_pion_victoire = int(entry_pions.get()) 
+    
     if Joueur2=="*IA*":
-        print("hahahaha")
-
+         print("hahahaha")
+         
+    if nb_pion_victoire > max(nb_lignes, nb_colonnes):
+        messagebox.showerror("Le nombre de pions à aligner ne peut pas dépasser le nombre de lignes ou de colonnes.")
+        return
+    
     if Joueur1 and Joueur2:
         accueil.destroy()
         jeu()
@@ -262,51 +272,10 @@ def placer_jeton(x):
     if Joueur2=="*IA*" and joueur_act==1:
         x=rd.randint(1,nb_colonnes)
         placer_jeton(x)
+    
+        
+        
 
-
-
-def verifier_victoire(couleur):
-    #  horizontale
-    for col in range(nb_colonnes):
-        for row in range(nb_lignes):
-            if col <= nb_colonnes - 4: 
-                if (grille[col][row] == couleur and
-                    grille[col + 1][row] == couleur and
-                    grille[col + 2][row] == couleur and
-                    grille[col + 3][row] == couleur):
-                    return True
-
-    #  verticale
-    for col in range(nb_colonnes):
-        for row in range(nb_lignes):
-            if row <= nb_lignes - 4:  
-                if (grille[col][row] == couleur and
-                    grille[col][row + 1] == couleur and
-                    grille[col][row + 2] == couleur and
-                    grille[col][row + 3] == couleur):
-                    return True
-
-    #  diagonale (\)
-    for col in range(nb_colonnes):
-        for row in range(nb_lignes):
-            if col <= nb_colonnes - 4 and row <= nb_lignes - 4:   
-                if (grille[col][row] == couleur and
-                    grille[col + 1][row + 1] == couleur and
-                    grille[col + 2][row + 2] == couleur and
-                    grille[col + 3][row + 3] == couleur):
-                    return True
-
-    # diagonale (/)
-    for col in range(nb_colonnes):
-        for row in range(nb_lignes):
-            if col >= 3 and row <= nb_lignes - 4: 
-                if (grille[col][row] == couleur and
-                    grille[col - 1][row + 1] == couleur and
-                    grille[col - 2][row + 2] == couleur and
-                    grille[col - 3][row + 3] == couleur):
-                    return True
-
-    return False
 
 def annuler_coup():
     global joueur_act
@@ -362,7 +331,7 @@ def reinitialiser_jeu():
     couleur = "Rouge" if joueur_act == 0 else "Jaune"
     label_joueur.config(text="C'est au Joueur " + str(joueur_act + 1) + " (" + couleur + ") de commencer")
     label_joueur.config(text=Joueur1 + " : " + str(manches_joueur1) + " | " + Joueur2 + " : " + str(manches_joueur2))
-
+    
 def choisir_dimensions():
     global nb_colonnes, nb_lignes, largeur_case, hauteur_case, grille
 
@@ -431,8 +400,66 @@ bouton_charger.grid(row=0,column=4)
 bouton_enregistrer=tk.Button(frame_bas, text="enregistrer", command=lambda: enregistrer_grille(), font=("helvetica", "12"))
 bouton_enregistrer.grid(row=0, column=6)
 
+
+
+# toute modification apres premiere evaluation
+
+nb_pion_victoire = 4 
+
+
+def verifier_victoire(couleur):
+    #  horizontale
+
+    for row in range(nb_lignes):
+        compteur = 0
+        for col in range(nb_colonnes):
+            if grille[col][row] == couleur :
+                compteur += 1
+                if compteur == nb_pion_victoire:
+                    return True
+            else:
+                compteur = 0
+
+    #  verticale
+    for col in range(nb_colonnes):
+        compteur = 0
+        for row in range(nb_lignes):
+            if grille[col][row] == couleur :
+                compteur += 1
+                if compteur == nb_pion_victoire:
+                    return True
+            else:
+                compteur = 0
+
+    #  diagonale (\)
+    for ligne in range(nb_lignes - nb_pion_victoire + 1):
+        for colonne in range(nb_colonnes - nb_pion_victoire + 1):
+            compteur = 0
+            for i in range(nb_pion_victoire):
+                if grille[ligne + i][colonne + i] == couleur:
+                    compteur += 1
+                    if compteur == nb_pion_victoire:
+                        return True
+                else:
+                    break
+
+    # diagonale (/)
+    for ligne in range(nb_pion_victoire - 1, nb_lignes):
+        for colonne in range(nb_colonnes - nb_pion_victoire + 1):
+            compteur = 0
+            for i in range(nb_pion_victoire):
+                if grille[ligne - i][colonne + i] == couleur:
+                    compteur += 1
+                    if compteur == nb_pion_victoire:
+                        return True
+                else:
+                    break
+
+    return False
+
+
+
 afficher_accueil()
 reinitialiser_jeu()  
 
 racine.mainloop()
-#test
