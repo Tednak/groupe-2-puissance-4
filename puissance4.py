@@ -96,7 +96,7 @@ def afficher_accueil():
     global nom_joueur1, nom_joueur2, zone_texte_joueur1, zone_texte_joueur2, bouton_demarrer, entry_pions
     accueil = tk.Tk()
     accueil.title("Page d'Accueil - Puissance 4")
-    accueil.geometry("1000x700")
+    accueil.geometry("1200x800")
     accueil.minsize(1000, 700)
     accueil.config(background="#3c6175")
 
@@ -124,7 +124,37 @@ def afficher_accueil():
     # Bouton pour expliquer comment mettre l'ia
     bouton_ia = tk.Button(frame, text="Ia ?", command=ia, font=("Helvetica", 15))
     bouton_ia.pack(pady=10)
-     
+ 
+    bouton_rouge = tk.Button(accueil, text="j1 rouge", command=modif_couleur_rouge1)
+    bouton_rouge.pack(side="left", padx=0, pady=10)    
+    bouton_vert = tk.Button(accueil, text="j1 vert", command=modif_couleur_vert1)
+    bouton_vert.pack(side="left", padx=0, pady=10)
+    bouton_marron = tk.Button(accueil, text="j1 marron", command=modif_couleur_marron1)
+    bouton_marron.pack(side="left", padx=0, pady=10)    
+    bouton_rose = tk.Button(accueil, text="j1 rose", command=modif_couleur_rose1)
+    bouton_rose.pack(side="left", padx=0, pady=10)
+    bouton_violet = tk.Button(accueil, text="j1 violet", command=modif_couleur_violet1)
+    bouton_violet.pack(side="left", padx=0, pady=10)    
+    bouton_orange = tk.Button(accueil, text="j1 orange", command=modif_couleur_orange1)
+    bouton_orange.pack(side="left", padx=0, pady=10)
+    bouton_noir = tk.Button(accueil, text="j1 noir", command=modif_couleur_noir1)
+    bouton_noir.pack(side="left", padx=0, pady=10)
+    
+    bouton_jaune = tk.Button(accueil, text="j2 jaune", command=modif_couleur_jaune2)
+    bouton_jaune.pack(side="right", padx=10, pady=10)    
+    bouton_vert = tk.Button(accueil, text="j2 vert", command=modif_couleur_vert2)
+    bouton_vert.pack(side="right", padx=0, pady=10)
+    bouton_marron = tk.Button(accueil, text="j2 marron", command=modif_couleur_marron2)
+    bouton_marron.pack(side="right", padx=0, pady=10)    
+    bouton_rose = tk.Button(accueil, text="j2 rose", command=modif_couleur_rose2)
+    bouton_rose.pack(side="right", padx=0, pady=10)
+    bouton_violet = tk.Button(accueil, text="j2 violet", command=modif_couleur_violet2)
+    bouton_violet.pack(side="right", padx=0, pady=10)    
+    bouton_orange = tk.Button(accueil, text="j2 orange", command=modif_couleur_orange2)
+    bouton_orange.pack(side="right", padx=0, pady=10)
+    bouton_noir = tk.Button(accueil, text="j2 noir", command=modif_couleur_noir2)
+    bouton_noir.pack(side="right", padx=0, pady=10)
+    
     # Bouton pour commencer la partie
     bouton_demarrer = tk.Button(frame, text="Commencer la partie", command=lambda: demarrer_partie(accueil), font=("Helvetica", 35))
     bouton_demarrer.pack(expand=True, pady=10)
@@ -151,7 +181,109 @@ def afficher_accueil():
     entry_pions.insert(0, "4")  # valeur par défaut
     entry_pions.pack(pady=5)
     
+
+    
     accueil.mainloop()
+
+
+def modif_couleur_rouge1():
+    global coul1, coul2
+    if coul2!="red":
+        coul1="red"
+    else:
+        coul1="yellow"
+def modif_couleur_jaune1():
+    global coul1, coul2
+    if coul2!="yellow":
+        coul1="yellow"
+    else:
+        coul1="red"
+def modif_couleur_vert1():
+    global coul1, coul2
+    if coul2!="green":
+        coul1="green"
+    else:
+        coul1="red"
+def modif_couleur_marron1():
+    global coul1, coul2
+    if coul2!="brown":
+        coul1="brown"
+    else:
+        coul1="red"
+def modif_couleur_rose1():
+    global coul1, coul2
+    if coul2!="pink":
+        coul1="pink"
+    else:
+        coul1="red"
+def modif_couleur_violet1():
+    global coul1, coul2
+    if coul2!="violet":
+        coul1="violet"
+    else:
+        coul1="red"
+def modif_couleur_orange1():
+    global coul1, coul2
+    if coul2!="orange":
+        coul1="orange"
+    else:
+        coul1="red"
+def modif_couleur_noir1():
+    global coul1, coul2
+    if coul2!="black":
+        coul1="black"
+    else:
+        coul1="red"
+
+def modif_couleur_rouge2():
+    global coul2, coul1
+    if coul2!="red":
+        coul1="red"
+    else:
+        coul1="yellow"        
+def modif_couleur_jaune2():
+    global coul2, coul1
+    if coul1!="yellow":
+        coul2="yellow"
+    else:
+        coul1="red"    
+def modif_couleur_vert2():
+    global coul2, coul1
+    if coul1 != "green":
+        coul2="green"
+    else:
+        coul2="yellow"
+def modif_couleur_marron2():
+    global coul2, coul1
+    if coul1 != "brown":
+        coul2="brown"
+    else:
+        coul2="yellow"
+def modif_couleur_rose2():
+    global coul2, coul1
+    if coul1 != "pink":
+        coul2="pink"
+    else:
+        coul2="yellow"
+def modif_couleur_violet2():
+    global coul2, coul1
+    if coul1 != "violet":
+        coul2="violet"
+    else:
+        coul2="yellow"
+def modif_couleur_orange2():
+    global coul2, coul1
+    if coul1 != "orange":
+        coul2="orange"
+    else:
+        coul2="yellow"
+def modif_couleur_noir2():
+    global coul2, coul1
+    if coul1 != "black":
+        coul2="black"
+    else:
+        coul2="yellow"
+    
 
 
 def demarrer_partie(accueil):
@@ -218,8 +350,11 @@ def dessiner_grille():
                 )
 
 
+coul1 = "red"
+coul2 = "yellow"
+
 def placer_jeton(x):
-    global joueur_act, manches_joueur1, manches_joueur2
+    global joueur_act, manches_joueur1, manches_joueur2, coul1, coul2, couleur
     colonne = x - 1  # pour la grille (de 0 à 6)
     
     if grille[colonne][0] is not None:
@@ -227,7 +362,7 @@ def placer_jeton(x):
 
     for row in range(nb_lignes - 1, -1, -1):
         if grille[colonne][row] is None:
-            couleur = "red" if joueur_act == 0 else "yellow"
+            couleur = coul1 if joueur_act == 0 else coul2
             mon_canvas.create_oval((25 + colonne * largeur_case, 25 + row * hauteur_case),
                                    ((colonne + 1) * largeur_case - 25, (row + 1) * hauteur_case - 25), 
                                    fill=couleur, outline=couleur, tags="jeton")
@@ -238,7 +373,7 @@ def placer_jeton(x):
             label_joueur.config(text="")  
 
             if verifier_victoire(couleur):
-                if couleur == "red":
+                if couleur == coul1:
                     messagebox.showinfo("Félicitations!", "Bravo " + Joueur1 + ", tu as gagné !")
                     manches_joueur1 += 1
                 else: 
@@ -328,7 +463,7 @@ def reinitialiser_jeu():
    
     dessiner_grille()  
 
-    couleur = "Rouge" if joueur_act == 0 else "Jaune"
+    couleur = coul1 if joueur_act == 0 else coul2
     label_joueur.config(text="C'est au Joueur " + str(joueur_act + 1) + " (" + couleur + ") de commencer")
     label_joueur.config(text=Joueur1 + " : " + str(manches_joueur1) + " | " + Joueur2 + " : " + str(manches_joueur2))
     
