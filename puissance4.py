@@ -528,7 +528,7 @@ def creer_boutons_colonnes():
     elif nb_colonnes == 9:
         for i in range(9):
             bouton = tk.Button(racine, text=str(i + 1), command=lambda x=i + 1: placer_jeton(x), font=("helvetica", 20))
-            bouton.grid(row=0, column=i + 2, padx="0.75", pady="1c")
+            bouton.grid(row=0, column=i + 2, padx="0.75c", pady="1c")
 
     elif nb_colonnes == 10:
         for i in range(10):
