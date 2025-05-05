@@ -21,8 +21,6 @@ manches_joueur2 = 0  # 🟡 Nombre de manches gagnées par le joueur 2
 nb_manches_gagnantes = 3  # 🟡 Nombre de manches à gagner pour remporter le set
 nb_colonnes = 7 #
 nb_lignes = 6 #
-CANVAS_WIDTH = 700
-CANVAS_HEIGHT = 600
 
 
 def manuel():
@@ -501,24 +499,43 @@ def creer_boutons_colonnes():
     for widget in racine.grid_slaves(row=0):
         widget.destroy()
 
-    # Calculer le décalage pour chaque nombre de colonnes
-    for i in range(nb_colonnes):
-        bouton = tk.Button(racine, text=str(i+1), command=lambda x=i+1: placer_jeton(x), font=("helvetica", "20"))
+    # Créer les boutons selon le nombre de colonnes
+    if nb_colonnes == 4:
+        for i in range(4):
+            bouton = tk.Button(racine, text=str(i + 1), command=lambda x=i + 1: placer_jeton(x), font=("helvetica", 20))
+            bouton.grid(row=0, column=i + 2, padx="2c", pady="1c")
 
-        if nb_colonnes == 4:
-            bouton.grid(row=0, column=i+3)
-        elif nb_colonnes == 5:
-            bouton.grid(row=0, column=i+3)
-        elif nb_colonnes == 6:
-            bouton.grid(row=0, column=i+3)
-        elif nb_colonnes == 7:
-            bouton.grid(row=0, column=i+2)
-        elif nb_colonnes == 8:
-            bouton.grid(row=0, column=i+1)
-        elif nb_colonnes == 9:
-            bouton.grid(row=0, column=i)
-        elif nb_colonnes == 10:
-            bouton.grid(row=0, column=i)
+    elif nb_colonnes == 5:
+        for i in range(5):
+            bouton = tk.Button(racine, text=str(i + 1), command=lambda x=i + 1: placer_jeton(x), font=("helvetica", 20))
+            bouton.grid(row=0, column=i + 2, padx="1.6c", pady="1c")
+
+    elif nb_colonnes == 6:
+        for i in range(6):
+            bouton = tk.Button(racine, text=str(i + 1), command=lambda x=i + 1: placer_jeton(x), font=("helvetica", 20))
+            bouton.grid(row=0, column=i + 2, padx="1.2c", pady="1c")
+
+    elif nb_colonnes == 7:
+        for i in range(7):
+            bouton = tk.Button(racine, text=str(i + 1), command=lambda x=i + 1: placer_jeton(x), font=("helvetica", 20))
+            bouton.grid(row=0, column=i + 2, padx="1c", pady="1c")
+
+    elif nb_colonnes == 8:
+        for i in range(8):
+            bouton = tk.Button(racine, text=str(i + 1), command=lambda x=i + 1: placer_jeton(x), font=("helvetica", 20))
+            bouton.grid(row=0, column=i + 2, padx="0.85c", pady="1c")
+
+    elif nb_colonnes == 9:
+        for i in range(9):
+            bouton = tk.Button(racine, text=str(i + 1), command=lambda x=i + 1: placer_jeton(x), font=("helvetica", 20))
+            bouton.grid(row=0, column=i + 2, padx="0.75", pady="1c")
+
+    elif nb_colonnes == 10:
+        for i in range(10):
+            bouton = tk.Button(racine, text=str(i + 1), command=lambda x=i + 1: placer_jeton(x), font=("helvetica", 20))
+            bouton.grid(row=0, column=i + 2, padx="0.65c", pady="1c")
+
+
 
 def reinitialiser_jeu():
     global grille, joueur_act
@@ -535,7 +552,10 @@ def reinitialiser_jeu():
     label_joueur.config(text=Joueur1 + " : " + str(manches_joueur1) + " | " + Joueur2 + " : " + str(manches_joueur2))
     
 def choisir_dimensions():
-    global nb_colonnes, nb_lignes, largeur_case, hauteur_case, grille
+    global nb_colonnes, nb_lignes, largeur_case, hauteur_case, grille , CANVAS_HEIGHT,CANVAS_WIDTH
+    CANVAS_WIDTH = nb_colonnes * 100
+    CANVAS_HEIGHT = nb_lignes * 100
+
 
     # Demander à l'utilisateur les dimensions
     colonnes = simpledialog.askinteger("Colonnes", "Entrez le nombre de colonnes (minimum 4) :", minvalue=4, maxvalue=10)
@@ -561,9 +581,9 @@ racine.title("Puissance 4")
 racine.withdraw()
 creer_boutons_colonnes()
 
-CANVAS_WIDTH = 700
-CANVAS_HEIGHT = 600
 
+CANVAS_WIDTH = nb_colonnes * 100
+CANVAS_HEIGHT = nb_lignes * 100
 
 mon_canvas = tk.Canvas(racine, width=CANVAS_WIDTH, height=CANVAS_HEIGHT, bg="blue")
 mon_canvas.grid(row=1, column=0, columnspan=20)
