@@ -11,6 +11,7 @@ zone_texte_joueur2=""
 grille1=[[None for _ in range(6)] for _ in range(7)]
 grille2=[[None for _ in range(6)] for _ in range(7)]
 grille3=[[None for _ in range(6)] for _ in range(7)]
+grille4=[[None for _ in range(6)] for _ in range(7)]
 grille =[[None for _ in range(6)] for _ in range(7)]
 nom1="partie vide"
 nom2="partie vide"
@@ -37,17 +38,20 @@ def charger_grille():
     bouton_grille6.grid(row=3,column=100)
 
 def charger_grille2(x):
-    global grille, grille1, grille2, grille3
+    global grille, grille1, grille2, grille3,grille4
     if x == 1:
         grille = [row[:] for row in grille1]  # Charger l'état de la grille1
     if x == 2:
         grille = [row[:] for row in grille2]  # Charger l'état de la grille2
     if x == 3:
         grille = [row[:] for row in grille3]  # Charger l'état de la grille3
-    bouton_grille4.destroy()
-    bouton_grille5.destroy()
-    bouton_grille6.destroy()
-    historique_coups=[]
+    if x == 4:
+        grille = [row[:] for row in grille4]
+    if x!=4:
+        bouton_grille4.destroy()
+        bouton_grille5.destroy()
+        bouton_grille6.destroy()
+        historique_coups=[]
     dessiner_grille()  
 
 def enregistrer_grille():
@@ -60,7 +64,7 @@ def enregistrer_grille():
     bouton_grille3.grid(row=3,column=100)
     
 def enregistrer_grille2(x):
-    global grille,grille1,grille2,grille3,nom1,nom2,nom3
+    global grille,grille1,grille2,grille3,grille4,nom1,nom2,nom3
     if x==1:
         nom1=simpledialog.askstring("Nom du joueur", "Entrez le nom de la partie :")
         grille1=[row[:] for row in grille]
@@ -70,6 +74,9 @@ def enregistrer_grille2(x):
     if x==3:
         nom3=simpledialog.askstring("Nom du joueur", "Entrez le nom de la partie :")
         grille3=[row[:] for row in grille]
+    if x==4:
+        grille4=[row[:] for row in grille]
+        return grille4
     bouton_grille1.destroy()
     bouton_grille2.destroy()
     bouton_grille3.destroy()
@@ -96,7 +103,7 @@ def afficher_accueil():
     global nom_joueur1, nom_joueur2, zone_texte_joueur1, zone_texte_joueur2, bouton_demarrer, entry_pions
     accueil = tk.Tk()
     accueil.title("Page d'Accueil - Puissance 4")
-    accueil.geometry("1200x800")
+    accueil.geometry("1000x700")
     accueil.minsize(1000, 700)
     accueil.config(background="#3c6175")
 
@@ -124,7 +131,7 @@ def afficher_accueil():
     # Bouton pour expliquer comment mettre l'ia
     bouton_ia = tk.Button(frame, text="Ia ?", command=ia, font=("Helvetica", 15))
     bouton_ia.pack(pady=10)
- 
+    
     bouton_rouge = tk.Button(accueil, text="j1 rouge", command=modif_couleur_rouge1)
     bouton_rouge.pack(side="left", padx=0, pady=10)    
     bouton_vert = tk.Button(accueil, text="j1 vert", command=modif_couleur_vert1)
@@ -154,7 +161,7 @@ def afficher_accueil():
     bouton_orange.pack(side="right", padx=0, pady=10)
     bouton_noir = tk.Button(accueil, text="j2 noir", command=modif_couleur_noir2)
     bouton_noir.pack(side="right", padx=0, pady=10)
-    
+
     # Bouton pour commencer la partie
     bouton_demarrer = tk.Button(frame, text="Commencer la partie", command=lambda: demarrer_partie(accueil), font=("Helvetica", 35))
     bouton_demarrer.pack(expand=True, pady=10)
@@ -181,10 +188,7 @@ def afficher_accueil():
     entry_pions.insert(0, "4")  # valeur par défaut
     entry_pions.pack(pady=5)
     
-
-    
     accueil.mainloop()
-
 
 def modif_couleur_rouge1():
     global coul1, coul2
@@ -283,18 +287,12 @@ def modif_couleur_noir2():
         coul2="black"
     else:
         coul2="yellow"
-    
-
 
 def demarrer_partie(accueil):
     global Joueur1, Joueur2, nb_pion_victoire
     Joueur1 = zone_texte_joueur1.get().strip()
     Joueur2 = zone_texte_joueur2.get().strip()
-    nb_pion_victoire = int(entry_pions.get()) 
-    
-    if Joueur2=="*IA*":
-         print("hahahaha")
-         
+    nb_pion_victoire = int(entry_pions.get())      
     if nb_pion_victoire > max(nb_lignes, nb_colonnes):
         messagebox.showerror("Le nombre de pions à aligner ne peut pas dépasser le nombre de lignes ou de colonnes.")
         return
@@ -349,20 +347,21 @@ def dessiner_grille():
                     fill=couleur, outline=couleur, tags="jeton"
                 )
 
-
 coul1 = "red"
 coul2 = "yellow"
 
 def placer_jeton(x):
-    global joueur_act, manches_joueur1, manches_joueur2, coul1, coul2, couleur
+    global joueur_act, manches_joueur1, manches_joueur2,var_test
     colonne = x - 1  # pour la grille (de 0 à 6)
+    var_test=0
     
     if grille[colonne][0] is not None:
+        var_test=1
         return messagebox.showwarning("Erreur", "Cette colonne est pleine, choisissez une autre colonne")
 
     for row in range(nb_lignes - 1, -1, -1):
         if grille[colonne][row] is None:
-            couleur = coul1 if joueur_act == 0 else coul2
+            couleur = "red" if joueur_act == 0 else "yellow"
             mon_canvas.create_oval((25 + colonne * largeur_case, 25 + row * hauteur_case),
                                    ((colonne + 1) * largeur_case - 25, (row + 1) * hauteur_case - 25), 
                                    fill=couleur, outline=couleur, tags="jeton")
@@ -373,7 +372,8 @@ def placer_jeton(x):
             label_joueur.config(text="")  
 
             if verifier_victoire(couleur):
-                if couleur == coul1:
+                var1=1
+                if couleur == "red":
                     messagebox.showinfo("Félicitations!", "Bravo " + Joueur1 + ", tu as gagné !")
                     manches_joueur1 += 1
                 else: 
@@ -404,12 +404,79 @@ def placer_jeton(x):
 
             joueur_act = 1 - joueur_act
             break
+
     if Joueur2=="*IA*" and joueur_act==1:
-        x=rd.randint(1,nb_colonnes)
-        placer_jeton(x)
+        var1=0
+        enregistrer_grille2(4)
+        for x in range(1,nb_colonnes+1):
+            placer_jetonia(x,0)
+            if verifier_victoire("yellow")==True :
+                messagebox.showinfo("Félicitations!", "Bravo " + Joueur2 + ", tu as gagné !")
+                manches_joueur2 += 1
+                if manches_joueur2 == nb_manches_gagnantes:
+                    messagebox.showinfo("Victoire du Set", Joueur2 + " remporte le set avec " + str(manches_joueur2) + " manches gagnées !")
+                    manches_joueur1 = 0
+                    manches_joueur2 = 0
+                    retour_accueil()
+                    return
+                else:
+                    retour_accueil()
+                    return
+            annuler_coup()
+            charger_grille2(4)
+        for x in range(1,nb_colonnes+1):
+            placer_jetonia(x,1)
+            if verifier_victoire("red")==True :
+                charger_grille2(4)
+                placer_jetonia(x,0)
+                joueur_act=0
+                return print("test")
+            charger_grille2(4)
+        if var1==0:
+            x=rd.randint(1,nb_colonnes+1)
+            placer_jetonia(x,0)
+            if var_test==1:
+                while var_test==1:
+                    var_test=0
+                    x=rd.randint(1,nb_colonnes+1)
+                    placer_jetonia(x,0)
+        joueur_act=0
     
         
-        
+def placer_jetonia(x,n):
+    global joueur_act,var_test
+    colonne = x - 1  # pour la grille (de 0 à 6)
+    var_test=0
+    
+    if grille[colonne][0] is not None:
+        var_test=1
+        return print("Cette colonne est pleine, choisissez une autre colonne")
+    if n==0:
+        for row in range(nb_lignes - 1, -1, -1):
+            if grille[colonne][row] is None:
+                couleur = "yellow"
+                mon_canvas.create_oval((25 + colonne * largeur_case, 25 + row * hauteur_case),
+                                    ((colonne + 1) * largeur_case - 25, (row + 1) * hauteur_case - 25), 
+                                    fill=couleur, outline=couleur, tags="jeton")
+
+                grille[colonne][row] = couleur 
+                historique_coups.append((colonne, row, couleur))  
+                print(historique_coups)
+                label_joueur.config(text="")  
+                break
+        return None
+    if n==1:
+        for row in range(nb_lignes - 1, -1, -1):
+            if grille[colonne][row] is None:
+                couleur = "red"
+                mon_canvas.create_oval((25 + colonne * largeur_case, 25 + row * hauteur_case),
+                                    ((colonne + 1) * largeur_case - 25, (row + 1) * hauteur_case - 25), 
+                                    fill=couleur, outline=couleur, tags="jeton")
+
+                grille[colonne][row] = couleur 
+                label_joueur.config(text="")  
+                break
+        return None          
 
 
 def annuler_coup():
@@ -463,7 +530,7 @@ def reinitialiser_jeu():
    
     dessiner_grille()  
 
-    couleur = coul1 if joueur_act == 0 else coul2
+    couleur = "Rouge" if joueur_act == 0 else "Jaune"
     label_joueur.config(text="C'est au Joueur " + str(joueur_act + 1) + " (" + couleur + ") de commencer")
     label_joueur.config(text=Joueur1 + " : " + str(manches_joueur1) + " | " + Joueur2 + " : " + str(manches_joueur2))
     
