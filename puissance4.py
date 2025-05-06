@@ -97,6 +97,7 @@ def demander_nb_manches():
     if nb:
         nb_manches_gagnantes = nb    
 
+
 def afficher_accueil():
     global nom_joueur1, nom_joueur2, zone_texte_joueur1, zone_texte_joueur2, bouton_demarrer, entry_pions
     accueil = tk.Tk()
@@ -106,87 +107,89 @@ def afficher_accueil():
     accueil.config(background="#3c6175")
 
     frame = tk.Frame(accueil, background="#3c6175")
-    frame.pack(fill="both", expand=True)
+    frame.grid(row=0, column=0, sticky="nsew", padx=20, pady=10)  # Ajout de marges pour centrer visuellement
 
     texte = tk.Label(frame, text="Bienvenue dans Puissance 4", font=("Impact", 45), bg="#3c6175", fg="black")
-    texte.pack(side="top", pady=10)
+    texte.grid(row=0, column=0, columnspan=3, pady=10)
 
     frame_pseudos = tk.Frame(frame, background="#3c6175")
-    frame_pseudos.pack(pady=60)  # Un peu plus d'espace pour décaler les champs de texte
+    frame_pseudos.grid(row=1, column=0, columnspan=3, pady=10)  # Réduction du padding
 
-    # Label pour le joueur 1
-    tk.Label(frame_pseudos, text="Nom du Joueur 1 :", font=("Comic Sans MS", 15, "bold"), fg="indian red", bg="#3c6175").pack(pady=5)
-    zone_texte_joueur1 = tk.Entry(frame_pseudos, font=("Comic Sans MS", 15, "bold"), fg="black")  # Texte en noir
-    zone_texte_joueur1.pack(pady=1)
+    tk.Label(frame_pseudos, text="Nom du Joueur 1 :", font=("Comic Sans MS", 15, "bold"), fg="indian red", bg="#3c6175").grid(row=0, column=0, pady=2)
+    zone_texte_joueur1 = tk.Entry(frame_pseudos, font=("Comic Sans MS", 15, "bold"), fg="black")
+    zone_texte_joueur1.grid(row=1, column=0, pady=2)
     zone_texte_joueur1.bind("<KeyRelease>", lambda: verifier_noms())
 
-    # Label pour le joueur 2
-    tk.Label(frame_pseudos, text="Nom du Joueur 2 :", font=("Comic Sans MS", 15, "bold"), fg="goldenrod", bg="#3c6175").pack(pady=5)
-    zone_texte_joueur2 = tk.Entry(frame_pseudos, font=("Comic Sans MS", 15, "bold"), fg="black")  # Texte en noir
-    zone_texte_joueur2.pack(pady=1)
+    tk.Label(frame_pseudos, text="Nom du Joueur 2 :", font=("Comic Sans MS", 15, "bold"), fg="goldenrod", bg="#3c6175").grid(row=2, column=0, pady=2)
+    zone_texte_joueur2 = tk.Entry(frame_pseudos, font=("Comic Sans MS", 15, "bold"), fg="black")
+    zone_texte_joueur2.grid(row=3, column=0, pady=2)
     zone_texte_joueur2.bind("<KeyRelease>", lambda: verifier_noms())
 
-    # Bouton pour expliquer comment mettre l'ia
     bouton_ia = tk.Button(frame, text="Ia ?", command=ia, font=("Helvetica", 15))
-    bouton_ia.pack(pady=10)
-    
+    bouton_ia.grid(row=2, column=0, pady=5)
+
+    # --- PARTIE COULEURS NON MODIFIÉE ---
     bouton_rouge = tk.Button(accueil, text="j1 rouge", command=modif_couleur_rouge1)
-    bouton_rouge.pack(side="left", padx=0, pady=10)    
+    bouton_rouge.grid(row=0, column=2, padx=10, pady=2, sticky="ne")
     bouton_vert = tk.Button(accueil, text="j1 vert", command=modif_couleur_vert1)
-    bouton_vert.pack(side="left", padx=0, pady=10)
+    bouton_vert.grid(row=1, column=2, padx=10, pady=2, sticky="ne")
     bouton_marron = tk.Button(accueil, text="j1 marron", command=modif_couleur_marron1)
-    bouton_marron.pack(side="left", padx=0, pady=10)    
+    bouton_marron.grid(row=2, column=2, padx=10, pady=2, sticky="ne")
     bouton_rose = tk.Button(accueil, text="j1 rose", command=modif_couleur_rose1)
-    bouton_rose.pack(side="left", padx=0, pady=10)
+    bouton_rose.grid(row=3, column=2, padx=10, pady=2, sticky="ne")
     bouton_violet = tk.Button(accueil, text="j1 violet", command=modif_couleur_violet1)
-    bouton_violet.pack(side="left", padx=0, pady=10)    
+    bouton_violet.grid(row=4, column=2, padx=10, pady=2, sticky="ne")
     bouton_orange = tk.Button(accueil, text="j1 orange", command=modif_couleur_orange1)
-    bouton_orange.pack(side="left", padx=0, pady=10)
+    bouton_orange.grid(row=5, column=2, padx=10, pady=2, sticky="ne")
     bouton_noir = tk.Button(accueil, text="j1 noir", command=modif_couleur_noir1)
-    bouton_noir.pack(side="left", padx=0, pady=10)
-    
+    bouton_noir.grid(row=6, column=2, padx=10, pady=2, sticky="ne")
+
     bouton_jaune = tk.Button(accueil, text="j2 jaune", command=modif_couleur_jaune2)
-    bouton_jaune.pack(side="right", padx=10, pady=10)    
+    bouton_jaune.grid(row=0, column=3, padx=10, pady=2, sticky="ne")
     bouton_vert = tk.Button(accueil, text="j2 vert", command=modif_couleur_vert2)
-    bouton_vert.pack(side="right", padx=0, pady=10)
+    bouton_vert.grid(row=1, column=3, padx=10, pady=2, sticky="ne")
     bouton_marron = tk.Button(accueil, text="j2 marron", command=modif_couleur_marron2)
-    bouton_marron.pack(side="right", padx=0, pady=10)    
+    bouton_marron.grid(row=2, column=3, padx=10, pady=2, sticky="ne")
     bouton_rose = tk.Button(accueil, text="j2 rose", command=modif_couleur_rose2)
-    bouton_rose.pack(side="right", padx=0, pady=10)
+    bouton_rose.grid(row=3, column=3, padx=10, pady=2, sticky="ne")
     bouton_violet = tk.Button(accueil, text="j2 violet", command=modif_couleur_violet2)
-    bouton_violet.pack(side="right", padx=0, pady=10)    
+    bouton_violet.grid(row=4, column=3, padx=10, pady=2, sticky="ne")
     bouton_orange = tk.Button(accueil, text="j2 orange", command=modif_couleur_orange2)
-    bouton_orange.pack(side="right", padx=0, pady=10)
+    bouton_orange.grid(row=5, column=3, padx=10, pady=2, sticky="ne")
     bouton_noir = tk.Button(accueil, text="j2 noir", command=modif_couleur_noir2)
-    bouton_noir.pack(side="right", padx=0, pady=10)
+    bouton_noir.grid(row=6, column=3, padx=10, pady=2, sticky="ne")
+    # ------------------------------------
 
-    # Bouton pour commencer la partie
     bouton_demarrer = tk.Button(frame, text="Commencer la partie", command=lambda: demarrer_partie(accueil), font=("Helvetica", 35))
-    bouton_demarrer.pack(expand=True, pady=10)
+    bouton_demarrer.grid(row=4, column=0, columnspan=3, pady=10)
 
-    # Bouton pour définir les manches gagnantes
     bouton_set = tk.Button(frame, text="Définir les manches gagnantes", command=demander_nb_manches, font=("Helvetica", 15))
-    bouton_set.pack(pady=50)
+    bouton_set.grid(row=5, column=0, columnspan=3, pady=10)
 
-    # Le bouton guide des stratégies (déplacé)
     bouton_manuel = tk.Button(frame, text="guide des stratégies", command=manuel, font=("Helvetica", 15))
-    bouton_manuel.pack(side="left", padx=10, pady=10)  # Place à gauche
+    bouton_manuel.grid(row=6, column=0, padx=10, pady=5)
 
-    # Le bouton Quitter (placé en bas à droite)
     bouton_quitter = tk.Button(frame, text="Quitter", command=accueil.destroy, font=("Helvetica", 20))
-    bouton_quitter.pack(side="right", anchor="s", padx=10, pady=10)  # Bas droit
+    bouton_quitter.grid(row=6, column=2, padx=10, pady=5, sticky="se")
 
-    #  bouton pour changer  les dimensions de la grille
     bouton_dimensions = tk.Button(frame, text="Changer dimensions", command=choisir_dimensions, font=("Helvetica", 15))
-    bouton_dimensions.pack(pady=10) 
+    bouton_dimensions.grid(row=7, column=0, columnspan=3, pady=5)
 
     label_pions = tk.Label(frame , text="Pions à aligner pour gagner :")
-    label_pions.pack(pady=5)
-    entry_pions = tk.Entry(frame, font=("Comic Sans MS", 15, "bold"), fg="black")  # Texte en noir
-    entry_pions.insert(0, "4")  # valeur par défaut
-    entry_pions.pack(pady=5)
-    
+    label_pions.grid(row=8, column=0, columnspan=3, pady=2)
+    entry_pions = tk.Entry(frame, font=("Comic Sans MS", 15, "bold"), fg="black")
+    entry_pions.insert(0, "4")
+    entry_pions.grid(row=9, column=0, columnspan=3, pady=2)
+
+    for i in range(10):
+        frame.grid_rowconfigure(i, weight=0)
+
     accueil.mainloop()
+
+
+
+
+
 
 def modif_couleur_rouge1():
     global coul1, coul2
@@ -680,8 +683,8 @@ def verifier_victoire(couleur):
     return False
 
 
-
+reinitialiser_jeu()
 afficher_accueil()
-reinitialiser_jeu()  
+  
 
 racine.mainloop()
