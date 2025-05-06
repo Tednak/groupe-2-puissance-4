@@ -359,7 +359,7 @@ def placer_jeton(x):
 
     for row in range(nb_lignes - 1, -1, -1):
         if grille[colonne][row] is None:
-            couleur = "red" if joueur_act == 0 else "yellow"
+            couleur = coul1 if joueur_act == 0 else coul2
             mon_canvas.create_oval((25 + colonne * largeur_case, 25 + row * hauteur_case),
                                    ((colonne + 1) * largeur_case - 25, (row + 1) * hauteur_case - 25), 
                                    fill=couleur, outline=couleur, tags="jeton")
@@ -371,7 +371,7 @@ def placer_jeton(x):
 
             if verifier_victoire(couleur):
                 var1=1
-                if couleur == "red":
+                if couleur == coul1:
                     messagebox.showinfo("Félicitations!", "Bravo " + Joueur1 + ", tu as gagné !")
                     manches_joueur1 += 1
                 else: 
@@ -408,7 +408,7 @@ def placer_jeton(x):
         enregistrer_grille2(4)
         for x in range(1,nb_colonnes+1):
             placer_jetonia(x,0)
-            if verifier_victoire("yellow")==True :
+            if verifier_victoire(coul2)==True :
                 messagebox.showinfo("Félicitations!", "Bravo " + Joueur2 + ", tu as gagné !")
                 manches_joueur2 += 1
                 if manches_joueur2 == nb_manches_gagnantes:
@@ -424,7 +424,7 @@ def placer_jeton(x):
             charger_grille2(4)
         for x in range(1,nb_colonnes+1):
             placer_jetonia(x,1)
-            if verifier_victoire("red")==True :
+            if verifier_victoire(coul1)==True :
                 charger_grille2(4)
                 placer_jetonia(x,0)
                 joueur_act=0
@@ -452,7 +452,7 @@ def placer_jetonia(x,n):
     if n==0:
         for row in range(nb_lignes - 1, -1, -1):
             if grille[colonne][row] is None:
-                couleur = "yellow"
+                couleur = coul2
                 mon_canvas.create_oval((25 + colonne * largeur_case, 25 + row * hauteur_case),
                                     ((colonne + 1) * largeur_case - 25, (row + 1) * hauteur_case - 25), 
                                     fill=couleur, outline=couleur, tags="jeton")
@@ -466,7 +466,7 @@ def placer_jetonia(x,n):
     if n==1:
         for row in range(nb_lignes - 1, -1, -1):
             if grille[colonne][row] is None:
-                couleur = "red"
+                couleur = coul1
                 mon_canvas.create_oval((25 + colonne * largeur_case, 25 + row * hauteur_case),
                                     ((colonne + 1) * largeur_case - 25, (row + 1) * hauteur_case - 25), 
                                     fill=couleur, outline=couleur, tags="jeton")
